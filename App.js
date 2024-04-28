@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import HomeScreen from './src/screens/HomeScreen';
+import MovieScreen from './src/screens/MovieScreen';
+import { useFonts } from 'expo-font';
+import AppLoading from 'expo-app-loading';
+const Stack = createStackNavigator()
+
+export default () => {
+  const [fontLoaded] = useFonts({
+    Regular : require("./assets/fonts/NunitoSans_7pt_Expanded-Regular.ttf"),
+    Bold : require("./assets/fonts/NunitoSans_7pt-Bold.ttf"),
+    Black : require("./assets/fonts/NunitoSans_7pt-Black.ttf"),
+    ExtaBold : require("./assets/fonts/NunitoSans_7pt-ExtraBold.ttf"),
+    ExtraLight : require("./assets/fonts/NunitoSans_7pt_Expanded-ExtraLight.ttf"),
+    Light : require("./assets/fonts/NunitoSans_7pt-Light.ttf"),
+    SemiBold : require("./assets/fonts/NunitoSans_7pt-SemiBold.ttf"),
+  });
+
+
+  
+  return fontLoaded ? (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="home"  component={HomeScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="movie" component={MovieScreen} options={{headerShown:false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  ):(<AppLoading/>);
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

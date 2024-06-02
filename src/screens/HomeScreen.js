@@ -10,7 +10,7 @@ import { getNowPlayingMovies , getUpComingMovies, getAllGenres} from '../service
 
 
 const Genres = ["All", "Action" , "Camedy" , "Romance" , "Horror" , "Sci-fi"];
-function HomeScreen({navigation}) {
+function HomeScreen({route , navigation}) {
 
 
       const [activeGenre , setActiveGenre] = useState("All")
@@ -23,15 +23,17 @@ function HomeScreen({navigation}) {
             getAllGenres().then((genreResponse)=>setGenres([...genres,...genreResponse.data.genres]))
       },[])
 
-
+ 
 
       return (
             <ScrollView style={styles.container}>
-                  <StatusBar style="light" translucent={false}  backgroundColor={Colors.BASICBACKGROUND}/>
+                  <StatusBar style="light" 
+                        translucent={false}  
+                        backgroundColor={Colors.BASICBACKGROUND}/>
 
                   <View style={styles.headerContainer}>
                         <Text style={styles.headerTitle}>Now playing</Text>
-                        <Text style={styles.headerSubTitle}>VIEW ALL</Text>
+                        <Text style={styles.headerSubTitle} onPress={()=>navigation.navigate("searchScreen")}>VIEW ALL</Text>
                   </View>
 
                   <View style={styles.genreListContainer}>
@@ -91,8 +93,11 @@ function HomeScreen({navigation}) {
                                                                   poster={item.poster_path}
                                                                   size={0.7}
                                                                   onPress={()=>navigation.navigate("movie", {movieId:item.id})}
-                                                                  /> }/>
+                                                                  /> }
+
+                                                                  />
                   </View>
+                  
             </ScrollView>
 )
 }

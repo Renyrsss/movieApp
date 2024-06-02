@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './src/screens/HomeScreen';
 import MovieScreen from './src/screens/MovieScreen';
+import MovieScreen2 from './src/screens/MovieScreen2';
+import SearchScreen from './src/screens/SearchScreen';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 const Stack = createStackNavigator()
@@ -26,6 +28,8 @@ export default () => {
       <Stack.Navigator>
         <Stack.Screen name="home"  component={HomeScreen} options={{headerShown:false}}/>
         <Stack.Screen name="movie" component={MovieScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="movieNew" component={MovieScreen2} options={{headerShown:false}}/>
+        <Stack.Screen name="searchScreen" component={SearchScreen} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   ):(<AppLoading/>);

@@ -140,7 +140,7 @@ function MovieScreen({route , navigation}) {
                                                                   size={0.8}
                                                                   onPress={()=>{
                                                                         console.log(item.id)
-                                                                        return navigator.navigate("movieNew", {movieId:item.id})
+                                                                        return navigation.navigate("movie", {movieId:item.id})
                                                                   }}
                                                                   /> }
 
@@ -164,7 +164,7 @@ function MovieScreen({route , navigation}) {
                                                                   voteCount ={item.vote_count}
                                                                   poster={item.poster_path}
                                                                   size={0.7}
-                                                                  onPress={()=>navigator.navigate("movie", {movieId:item.id})}
+                                                                  onPress={()=>navigation.navigate("movie", {movieId:item.id})}
                                                                   /> }
                               
 

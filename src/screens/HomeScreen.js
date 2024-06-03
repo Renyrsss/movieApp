@@ -33,7 +33,7 @@ function HomeScreen({route , navigation}) {
 
                   <View style={styles.headerContainer}>
                         <Text style={styles.headerTitle}>Now playing</Text>
-                        <Text style={styles.headerSubTitle} onPress={()=>navigation.navigate("searchScreen")}>VIEW ALL</Text>
+                        <Text style={styles.headerSubTitle} onPress={()=>navigation.navigate("searchScreen")}>Search Movie</Text>
                   </View>
 
                   <View style={styles.genreListContainer}>

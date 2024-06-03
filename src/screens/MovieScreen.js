@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View  ,ScrollView, Dimensions ,Image , TouchableOpacity, Linking , FlatList} from 'react-native';
 import Colors from '../constants/Colors';
-import { getMovieById ,getRec,getSim, getPoster , getVideo , getLanguage} from '../services/MovieService';
+import { getMovieById ,getRec,getSim, getPoster , getVideo , getLanguage,getcredits} from '../services/MovieService';
 import ItemSeparator from '../components/ItemSeparator';
 import {LinearGradient} from "expo-linear-gradient"
 import {Feather, Ionicons} from "@expo/vector-icons"
@@ -21,10 +21,11 @@ const setWidth = (w) => (width/100) * w;
 function MovieScreen({route , navigation}) {
       const {movieId} = route.params;
       const [isCastSelected , setIsCastSelected] = useState(true)
-      const [movie, setMovie] = useState({data:{backdrop_path: '',original_title:'',vote_average:'' , genres:'' , runtime:'' , original_language:'' , overview:""}})
+      const [movie, setMovie] = useState({data:{backdrop_path: '',original_title:'',vote_average:'' , genres:'' , runtime:'' , original_language:'' , overview:"" ,genres:[]}})
       const navigator = useNavigation()
       const [rec , setRec] = useState();
       const [sim , setSim] = useState()
+      const [cred , setCred] = useState()
       useEffect(()=>{
             getMovieById(movieId, 
                         `${AR.VIDEO},
@@ -43,6 +44,11 @@ function MovieScreen({route , navigation}) {
                   
                   // console.log(res.data.results[1]);
                   setSim(res.data.results)})
+
+            
+            getcredits(movieId).then((res) => {
+                  setCred(res.data.cast)
+            })
       },[])
 
       return (
@@ -72,7 +78,7 @@ function MovieScreen({route , navigation}) {
                         </View>
                   </View>
                   <Text style={styles.genreText}>
-                        {movie?.genres?.map(genre => genre?.name)?.join(",")} | {movie?.data.runtime} min
+                        {movie?.data.genres?.map(genre => genre?.name)?.join(",")} | {movie?.data.runtime} min
                   </Text>
                   <Text  style={styles.genreText}>{getLanguage(movie?.data.original_language)?.english_name }</Text>
 
@@ -102,7 +108,7 @@ function MovieScreen({route , navigation}) {
                         </View>
                         <FlatList 
                               style={{marginVertical:5}}
-                              data ={isCastSelected ? movie?.data.credits?.cast : movie?.credits?.crew}
+                              data ={isCastSelected ? cred : movie?.credits?.crew}
                               keyExtractor={(item) => item?.credit_id}
                               horizontal
                               showsHorizontalScrollIndicator={false}
@@ -164,7 +170,7 @@ function MovieScreen({route , navigation}) {
                                                                   voteCount ={item.vote_count}
                                                                   poster={item.poster_path}
                                                                   size={0.7}
-                                                                  onPress={()=>navigator.navigate("movie", {movieId:item.id})}
+                                                                  onPress={()=>navigator.navigate("movieNew", {movieId:item.id})}
                                                                   /> }
                               
 

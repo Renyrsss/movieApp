@@ -25,6 +25,8 @@ const getRec = (movieId) =>
 const getSim = (movieId) => 
       TMDB_HTTP_REQUEST.get(`${ENDPOINTS.MOVIE}/${movieId}/similar`);
 
+const getcredits = (movieId) => 
+      TMDB_HTTP_REQUEST.get(`${ENDPOINTS.MOVIE}/${movieId}/credits`);
 const searchMovie = async (search) => {
       const url = `https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=false&language=en-US&page=1`;
       let movies = {}
@@ -60,4 +62,4 @@ const getLanguage = (language_iso) => Language.find(language => language.iso_639
 
 
 
-export {getNowPlayingMovies ,searchMovie,getUpComingMovies,getSim,getMovieById,getRec,getAllGenres, getPoster , getLanguage , getVideo}
+export {getNowPlayingMovies ,searchMovie,getUpComingMovies,getSim,getcredits,getMovieById,getRec,getAllGenres, getPoster , getLanguage , getVideo}

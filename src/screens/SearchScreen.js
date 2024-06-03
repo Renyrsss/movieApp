@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState ,useMemo } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View  ,ScrollView, Dimensions ,Image , TouchableOpacity, Linking , FlatList, TextInput} from 'react-native';
 import Colors from '../constants/Colors';
@@ -20,21 +20,38 @@ const setWidth = (w) => (width/100) * w;
 
 function MovieScreen({route , navigation}) {
 
-      const [isCastSelected , setIsCastSelected] = useState(true)
-      const [movie, setMovie] = useState({data:{backdrop_path: '',original_title:'',vote_average:'' , genres:'' , runtime:'' , original_language:'' , overview:""}})
+      // const [isCastSelected , setIsCastSelected] = useState(true)
+      // const [movie, setMovie] = useState({data:{backdrop_path: '',original_title:'',vote_average:'' , genres:'' , runtime:'' , original_language:'' , overview:""}})
       const navigator = useNavigation()
-      const [rec , setRec] = useState();
-      const [sim , setSim] = useState();
+
       const [input , setInput] = useState('');
-      const [movies , setMovies] = useState({})
+      const [movies , setMovies] = useState()
+
+
+      // const memoizedMovies = useMemo(() => {
+      //       return searchMovie(input);
+      // }, [input]);
       useEffect(()=>{
+            async function hello(){
+            let res = await searchMovie(input)
+            console.log(res);
+            if(res !== undefined || res !=='undefined' || res !== 'null' || res !== null){
+                  
+                  setMovies(res)
+                  // console.log(Object.entries(movies.results)[2][1] );
+                  console.log(res);
+            }
+            else{
+                  console.log('object is empty');
+            }
+            }
+            hello()
             
-            setMovies({results:searchMovie(input)})
       },[input])
 
-      console.log(movies);
+      // console.log(movies.results["_j"])
       return (
-            <ScrollView  style={{backgroundColor:'gray'}}>
+            <ScrollView  >
                   <StatusBar style='light'/>
                   <LinearGradient colors={["rgba(0,0,0,0.5)", "rgba(217,217,217,0)"]} start={[0, 0.3]} style={styles.linearGradient}/>
 
@@ -50,12 +67,11 @@ function MovieScreen({route , navigation}) {
                   <Text style={styles.extraListTitle}>
                         Search movie
                   </Text>
-                  <TextInput style={styles.textinput} value={input} onChangeText={text => setInput(text)}/>
-                  <Text style={styles.extraListTitle}>
-                        {input}
-                  </Text>
+                  <TextInput style={styles.textinput} value={input} onChangeText={text => setInput(text)} placeholder='Search Movie' placeholderTextColor="#fff" />
+
                         <FlatList 
-                              data ={rec}
+                              style={{marginTop:30}}
+                              data ={movies}
                               keyExtractor={(item) => item?.id?.toString()}
                               horizontal
                               showsHorizontalScrollIndicator={false}
@@ -123,11 +139,11 @@ const styles = StyleSheet.create({
             position: "absolute",
             right:0,
             left:0,
-            top:50,
+            top:85,
             elevation:20,
       },
       headerText: {
-            color :Colors.WHITE,
+            color :Colors.BLACK,
             fontWeight:"bold",
             fontSize:18,
             
@@ -203,7 +219,7 @@ const styles = StyleSheet.create({
             fontWeight:"bold"
       },
       extraListTitle : {
-            marginTop:30,
+            marginTop:50,
             marginLeft:20,
             color : Colors.BLACK,
             fontWeight:"bold",

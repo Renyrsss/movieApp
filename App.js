@@ -1,13 +1,14 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import { AppRegistry } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import MovieScreen from './src/screens/MovieScreen';
 import MovieScreen2 from './src/screens/MovieScreen2';
 import SearchScreen from './src/screens/SearchScreen';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+AppRegistry.registerComponent('AwesomeProject', () => App);
 const Stack = createStackNavigator()
 
 export default () => {

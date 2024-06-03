@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View  ,ScrollView, Dimensions ,Image , TouchableOpacity, Linking , FlatList} from 'react-native';
 import Colors from '../constants/Colors';
-import { getMovieById ,getRec,getSim, getPoster , getVideo , getLanguage} from '../services/MovieService';
+import { getMovieById ,getRec,getSim, getPoster , getVideo , getLanguage , getcredits} from '../services/MovieService';
 import ItemSeparator from '../components/ItemSeparator';
 import {LinearGradient} from "expo-linear-gradient"
 import {Feather, Ionicons} from "@expo/vector-icons"
@@ -25,6 +25,7 @@ function MovieScreen({route , navigation}) {
       const navigator = useNavigation()
       const [rec , setRec] = useState();
       const [sim , setSim] = useState()
+      const [cred , setCred] = useState()
       useEffect(()=>{
             getMovieById(movieId, 
                         `${AR.VIDEO},
@@ -43,6 +44,10 @@ function MovieScreen({route , navigation}) {
                   
                   // console.log(res.data.results[1]);
                   setSim(res.data.results)})
+
+            getcredits(movieId).then((res) => {
+                  setCred(res.data.cast)
+            })
       },[])
 
       return (
@@ -102,7 +107,7 @@ function MovieScreen({route , navigation}) {
                         </View>
                         <FlatList 
                               style={{marginVertical:5}}
-                              data ={isCastSelected ? movie?.data.credits?.cast : movie?.credits?.crew}
+                              data ={isCastSelected ? cred : movie?.credits?.crew}
                               keyExtractor={(item) => item?.credit_id}
                               horizontal
                               showsHorizontalScrollIndicator={false}
